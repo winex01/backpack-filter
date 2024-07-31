@@ -4,22 +4,11 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![The Whole Fruit Manifesto](https://img.shields.io/badge/writing%20standard-the%20whole%20fruit-brightgreen)](https://github.com/the-whole-fruit/manifesto)
 
-> **// TODO: customize this description and delete this line**
-
-This package provides XXX functionality for projects that use the [Backpack for Laravel](https://backpackforlaravel.com/) administration panel. 
-
-More exactly, it adds X and Y so that you can easily do Z.
-
+This package provides a filter functionality for [Backpack for Laravel](https://backpackforlaravel.com/) administration panel. If you don't have the budget or haven't purchased the pro version, this is a great alternative for implementing filters.
 
 ## Screenshots
 
-> **// TODO: add a screenshot and delete these lines;** 
-> to add a screenshot to a github markdown file, the easiest way is to
-> open an issue, upload the screenshot there with drag&drop, then close the issue;
-> you now have that image hosted on Github's servers; so you can then right-click 
-> the image to copy its URL, and use that URL wherever you want (for example... here)
-
-![Backpack Toggle Field Addon](https://via.placeholder.com/600x250?text=screenshot+needed)
+![Screenshot_12](https://github.com/user-attachments/assets/b411481d-6ccf-47aa-828a-79e7f2e17b01)
 
 
 ## Installation
@@ -32,18 +21,31 @@ composer require winex01/backpack-filter
 
 ## Usage
 
-> **// TODO: explain to your users how to use the functionality** this package provides; 
-> we've provided an example for a Backpack addon that provides a custom field
-
-To use the field this package provides, inside your custom CrudController do:
+To use the filter this package provides, inside your custom CrudController do:
 
 ```php
-$this->crud->addField([
-    'name' => 'agreed',
-    'label' => 'I agree to the terms and conditions',
-    'type' => 'new_field_name',
-    'view_namespace' => 'winex01.backpack-filter::fields',
-]);
+protected function setupFilterOperation()
+{
+    $this->crud->field([
+        'name' => 'status',
+        'label' => __('Status'),
+        'type' => 'select',
+        'options' => [
+            1 => 'Connected',
+            2 => 'Disconnected'
+        ],
+        // 'class-col' => 'col-2', Optional: default length is col-2 
+    ]);
+
+    $this->crud->field([
+        'name' => 'date_range',
+        'label' => __('Date Range'),
+        'type' => 'date_range',
+        // 'class-col' => 'col-3', Optional: default length is col-3
+    ]);
+
+
+}
 ```
 
 Notice the ```view_namespace``` attribute - make sure that is exactly as above, to tell Backpack to load the field from this _addon package_, instead of assuming it's inside the _Backpack\CRUD package_.
