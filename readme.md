@@ -21,34 +21,62 @@ composer require winex01/backpack-filter
 
 ## Usage
 
-To use the filter this package provides, inside your custom CrudController do:
+To use the filter this package provides, inside your EntityCrudController do:
 
 ```php
-protected function setupFilterOperation()
+
+class EntityCrudController extends CrudController
 {
-    $this->crud->field([
-        'name' => 'status',
-        'label' => __('Status'),
-        'type' => 'select',
-        'options' => [
-            1 => 'Connected',
-            2 => 'Disconnected'
-        ],
-        // 'class-col' => 'col-2', Optional: default length is col-2 
-    ]);
+    use \Winex01\BackpackFilter\Http\Controllers\Operations\FilterOperation;
 
-    $this->crud->field([
-        'name' => 'date_range',
-        'label' => __('Date Range'),
-        'type' => 'date_range',
-        // 'class-col' => 'col-3', Optional: default length is col-3
-    ]);
+    // method setup....
 
+    protected function setupFilterOperation()
+    {
+        $this->crud->field([
+            'name' => 'status',
+            'label' => __('Status'),
+            'type' => 'select',
+            'options' => [
+                1 => 'Connected',
+                2 => 'Disconnected'
+            ],
+            // 'class-col' => 'col-2', Optional: default length is col-2 
+        ]);
+    
+        $this->crud->field([
+            'name' => 'date_range',
+            'label' => __('Date Range'),
+            'type' => 'date_range',
+            // 'class-col' => 'col-3', Optional: default length is col-3
+        ]);
+    }
+```
 
+To apply the filter field into queries, inside your setupListOperation:
+
+```php
+protected function setupListOperation()
+{
+    // if you use this method closure, validation is automatically applied.
+    $this->filterQueries(function ($query) {
+        $status = request()->input('status');
+        $dates = request()->input('date_range');
+
+        if ($status) {
+            $query->where('status_id', $status);
+        }
+
+        if ($dates) {
+            $dates = explode('-', $dates);
+            //$query->where... you clause here or scope.
+        }
+    });
+
+    // some code here... add column etc...
 }
 ```
 
-Notice the ```view_namespace``` attribute - make sure that is exactly as above, to tell Backpack to load the field from this _addon package_, instead of assuming it's inside the _Backpack\CRUD package_.
 
 
 ## Overwriting
