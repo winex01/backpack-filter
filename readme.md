@@ -21,6 +21,22 @@ composer require winex01/backpack-filter
 
 ## Usage
 
+Create a file resources/vendor/backpack/crud/list.blade.php and paste the original backpack file contents. Inside, add this line:
+
+```php
+//resources/vendor/backpack/crud/list.blade.php
+@include('winex01.backpack-filter::buttons.list_top_collapse')
+
+{{-- Backpack List Filters --}}
+// some code here...
+```
+OR you can download the file here:
+[list.blade.php](https://github.com/Laravel-Backpack/CRUD/blob/main/src/resources/views/crud/list.blade.php)
+```php
+//line 51
+@include('winex01.backpack-filter::buttons.list_top_collapse')
+```
+
 To use the filter this package provides, inside your EntityCrudController do:
 
 ```php
@@ -77,7 +93,30 @@ protected function setupListOperation()
 }
 ```
 
+If you want to make your own validation:
+```php
+protected function filterValidations()
+{   
+    // If no access to filters, then don't proceed but don't show an error.
+    if (!$this->crud->hasAccess('filters')) {
+        return false;
+    }
 
+    // if you dont want to use validator and want to use request file, modify below, up to you.
+
+    $validationErrors = [];
+
+    // validator here.
+
+    // Show all validation errors if any
+    if (!empty($validationErrors)) {
+        \Alert::error($validationErrors);
+        return false;
+    }
+
+    return true;
+}
+```
 
 ## Overwriting
 
