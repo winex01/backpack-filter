@@ -8,6 +8,7 @@ This package provides a filter functionality for [Backpack for Laravel](https://
 
 ## Screenshots
 
+![Screenshot_13](https://github.com/user-attachments/assets/a356f001-b18e-4270-ab10-79cb29be8f06)
 ![Screenshot_12](https://github.com/user-attachments/assets/b411481d-6ccf-47aa-828a-79e7f2e17b01)
 
 
@@ -85,7 +86,7 @@ protected function setupListOperation()
 
         if ($dates) {
             $dates = explode('-', $dates);
-            //$query->where... you clause here or scope.
+            //$query->where... your clause here or scope.
         }
     });
 
@@ -118,36 +119,25 @@ protected function filterValidations()
 }
 ```
 
-## Overwriting
+This package also provides with export using https://laravel-excel.com/, this operation automatically add entity/export route, be sure you have EntityExport.php file in your export directory. 
+example if you have UserCrudController, you must have app/Exports/UserExport.php file.
+```php
+// crud controller
+class UserCrudController extends CrudController
+{
+    use \Winex01\BackpackFilter\Http\Controllers\Operations\ExportOperation;
 
-> **// TODO: explain to your users how to overwrite the functionality this package provides;**
-> we've provided an example for a custom field
+    // Optional: if you dont want to use the entity/export or user/export convention you can override the export route:
+    protected function exportRoute()
+    {
+        return route('test.export');; // if you define a route here then it will use instead of the auto
+    }    
 
-If you need to change the field in any way, you can easily publish the file to your app, and modify that file any way you want. But please keep in mind that you will not be getting any updates.
+    // setup method...
+}
 
-**Step 1.** Copy-paste the blade file to your directory:
-```bash
-# create the fields directory if it's not already there
-mkdir -p resources/views/vendor/backpack/crud/fields
-
-# copy the blade file inside the folder we created above
-cp -i vendor/winex01/backpack-filter/src/resources/views/fields/field_name.blade.php resources/views/vendor/backpack/crud/fields/field_name.blade.php
 ```
 
-**Step 2.** Remove the vendor namespace wherever you've used the field:
-```diff
-$this->crud->addField([
-    'name' => 'agreed',
-    'type' => 'toggle',
-    'label' => 'I agree to the terms and conditions',
--   'view_namespace' => 'winex01.backpack-filter::fields'
-]);
-```
-
-**Step 3.** Uninstall this package. Since it only provides one file, and you're no longer using that file, it makes no sense to have the package installed:
-```bash
-composer remove winex01/backpack-filter
-```
 
 ## Change log
 
