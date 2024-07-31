@@ -4,22 +4,12 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![The Whole Fruit Manifesto](https://img.shields.io/badge/writing%20standard-the%20whole%20fruit-brightgreen)](https://github.com/the-whole-fruit/manifesto)
 
-> **// TODO: customize this description and delete this line**
-
-This package provides XXX functionality for projects that use the [Backpack for Laravel](https://backpackforlaravel.com/) administration panel. 
-
-More exactly, it adds X and Y so that you can easily do Z.
-
+This package provides a filter functionality for [Backpack for Laravel](https://backpackforlaravel.com/) administration panel. If you don't have the budget or haven't purchased the pro version, this is a great alternative for implementing filters.
 
 ## Screenshots
 
-> **// TODO: add a screenshot and delete these lines;** 
-> to add a screenshot to a github markdown file, the easiest way is to
-> open an issue, upload the screenshot there with drag&drop, then close the issue;
-> you now have that image hosted on Github's servers; so you can then right-click 
-> the image to copy its URL, and use that URL wherever you want (for example... here)
-
-![Backpack Toggle Field Addon](https://via.placeholder.com/600x250?text=screenshot+needed)
+![Screenshot_13](https://github.com/user-attachments/assets/a356f001-b18e-4270-ab10-79cb29be8f06)
+![Screenshot_12](https://github.com/user-attachments/assets/b411481d-6ccf-47aa-828a-79e7f2e17b01)
 
 
 ## Installation
@@ -32,53 +22,126 @@ composer require winex01/backpack-filter
 
 ## Usage
 
-> **// TODO: explain to your users how to use the functionality** this package provides; 
-> we've provided an example for a Backpack addon that provides a custom field
-
-To use the field this package provides, inside your custom CrudController do:
+Create a file resources/vendor/backpack/crud/list.blade.php and paste the original backpack file contents. Inside, add this line:
 
 ```php
-$this->crud->addField([
-    'name' => 'agreed',
-    'label' => 'I agree to the terms and conditions',
-    'type' => 'new_field_name',
-    'view_namespace' => 'winex01.backpack-filter::fields',
-]);
+//resources/vendor/backpack/crud/list.blade.php
+@include('winex01.backpack-filter::buttons.list_top_collapse')
+
+{{-- Backpack List Filters --}}
+// some code here...
+```
+OR you can download the file here:
+[list.blade.php](https://github.com/Laravel-Backpack/CRUD/blob/main/src/resources/views/crud/list.blade.php)
+```php
+//line 51
+@include('winex01.backpack-filter::buttons.list_top_collapse')
 ```
 
-Notice the ```view_namespace``` attribute - make sure that is exactly as above, to tell Backpack to load the field from this _addon package_, instead of assuming it's inside the _Backpack\CRUD package_.
+To use the filter this package provides, inside your EntityCrudController do:
 
+```php
 
-## Overwriting
+class EntityCrudController extends CrudController
+{
+    use \Winex01\BackpackFilter\Http\Controllers\Operations\FilterOperation;
 
-> **// TODO: explain to your users how to overwrite the functionality this package provides;**
-> we've provided an example for a custom field
+    // method setup....
 
-If you need to change the field in any way, you can easily publish the file to your app, and modify that file any way you want. But please keep in mind that you will not be getting any updates.
-
-**Step 1.** Copy-paste the blade file to your directory:
-```bash
-# create the fields directory if it's not already there
-mkdir -p resources/views/vendor/backpack/crud/fields
-
-# copy the blade file inside the folder we created above
-cp -i vendor/winex01/backpack-filter/src/resources/views/fields/field_name.blade.php resources/views/vendor/backpack/crud/fields/field_name.blade.php
+    protected function setupFilterOperation()
+    {
+        $this->crud->field([
+            'name' => 'status',
+            'label' => __('Status'),
+            'type' => 'select',
+            'options' => [
+                1 => 'Connected',
+                2 => 'Disconnected'
+            ],
+            // 'class-col' => 'col-2', Optional: default length is col-2 
+        ]);
+    
+        $this->crud->field([
+            'name' => 'date_range',
+            'label' => __('Date Range'),
+            'type' => 'date_range',
+            // 'class-col' => 'col-3', Optional: default length is col-3
+        ]);
+    }
 ```
 
-**Step 2.** Remove the vendor namespace wherever you've used the field:
-```diff
-$this->crud->addField([
-    'name' => 'agreed',
-    'type' => 'toggle',
-    'label' => 'I agree to the terms and conditions',
--   'view_namespace' => 'winex01.backpack-filter::fields'
-]);
+To apply the filter field into queries, inside your setupListOperation:
+
+```php
+protected function setupListOperation()
+{
+    // if you use this method closure, validation is automatically applied.
+    $this->filterQueries(function ($query) {
+        $status = request()->input('status');
+        $dates = request()->input('date_range');
+
+        if ($status) {
+            $query->where('status_id', $status);
+        }
+
+        if ($dates) {
+            $dates = explode('-', $dates);
+            //$query->where... your clause here or scope.
+        }
+    });
+
+    // some code here... add column etc...
+}
 ```
 
-**Step 3.** Uninstall this package. Since it only provides one file, and you're no longer using that file, it makes no sense to have the package installed:
-```bash
-composer remove winex01/backpack-filter
+If you want to make your own validation:
+```php
+protected function filterValidations()
+{   
+    // If no access to filters, then don't proceed but don't show an error.
+    if (!$this->crud->hasAccess('filters')) {
+        return false;
+    }
+
+    // if you dont want to use validator and want to use request file, modify below, up to you.
+
+    $validationErrors = [];
+
+    // validator here.
+
+    // Show all validation errors if any
+    if (!empty($validationErrors)) {
+        \Alert::error($validationErrors);
+        return false;
+    }
+
+    return true;
+}
 ```
+
+This package also provides with export using https://laravel-excel.com/, this operation automatically add entity/export route, be sure you have EntityExport.php file in your export directory. 
+example if you have UserCrudController, you must have app/Exports/UserExport.php file. Also if you have an active filters it will also apply into the export.
+```php
+// crud controller
+class UserCrudController extends CrudController
+{
+    use \Winex01\BackpackFilter\Http\Controllers\Operations\ExportOperation;
+
+    // Optional: if you dont want to use the entity/export or user/export convention you can override the export route:
+    protected function exportRoute()
+    {
+        return route('test.export');; // if you define a route here then it will use instead of the auto
+    }    
+
+    // setup method...
+}
+
+```
+
+## Theme Supported
+- theme-coreuiv2 - YES
+- theme-coreuiv4 - haven't tried
+- theme-tabler   - haven't tried
 
 ## Change log
 
