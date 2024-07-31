@@ -120,7 +120,7 @@ protected function filterValidations()
 ```
 
 This package also provides with export using https://laravel-excel.com/, this operation automatically add entity/export route, be sure you have EntityExport.php file in your export directory. 
-example if you have UserCrudController, you must have app/Exports/UserExport.php file.
+example if you have UserCrudController, you must have app/Exports/UserExport.php file. Also if you have an active filters it will also apply into the export.
 ```php
 // crud controller
 class UserCrudController extends CrudController
@@ -138,6 +138,10 @@ class UserCrudController extends CrudController
 
 ```
 
+## Theme Supported
+- theme-coreuiv2 - YES
+- theme-coreuiv4 - haven't tried
+- theme-tabler   - haven't tried
 
 ## Change log
 
