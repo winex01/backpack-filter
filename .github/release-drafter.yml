@@ -1,0 +1,7 @@
+name-template: '$NEXT_PATCH_VERSION 🎉'
+tag-template: '$NEXT_PATCH_VERSION'
+categories:
+  - title: 'Changes'
+    labels: []
+change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
+version-resolver: 'draft'
