@@ -4,7 +4,6 @@
         value="{{ Request::get($filter['name']) ? Request::get($filter['name']) : '' }}">
 </div>
 
-
 @push('crud_list_styles')
   <link rel="stylesheet" type="text/css" href="{{ basset('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css') }}" />
 @endpush
