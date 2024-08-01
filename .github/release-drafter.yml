@@ -19,7 +19,6 @@ categories:
   - title: '🧰 Removed'
     label: 'removed'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-version-resolver: 'draft'
 template: |
   ## What's Changed
   $CHANGES
