@@ -1,7 +1,24 @@
 name-template: '$NEXT_PATCH_VERSION 🎉'
 tag-template: '$NEXT_PATCH_VERSION'
 categories:
-  - title: 'Changes'
-    labels: []
+  - title: '🚀 Features'
+    labels:
+      - 'feature'
+      - 'enhancement'
+      - 'added'
+  - title: '🐛 Bug Fixes'
+    labels:
+      - 'fix'
+      - 'bugfix'
+      - 'bug'
+      - 'fixed'
+  - title: '⚙️ Changes'
+    labels:
+      - 'changed'
+      - 'dependencies'
+  - title: '🧰 Removed'
+    label: 'removed'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-version-resolver: 'draft'
+template: |
+  ## What's Changed
+  $CHANGES
