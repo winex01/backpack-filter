@@ -14,7 +14,6 @@
         <span class="la la-download"></span> {{ __('Export') }}  
     </button>
 
-
     @push('crud_list_scripts')
         <script>
             document.getElementById('export-button').addEventListener('click', function() {
