@@ -11,7 +11,7 @@
     ],
     "homepage": "https://github.com/winex01/backpack-filter",
     "keywords": [
-        "Laravel", "Backpack", "Backpack for Laravel", "Backpack Addon", "Backpack Filter", "Backpack Free Filter"
+        "Laravel", "Backpack", "Backpack for Laravel", "Backpack Addon", "Backpack Filter", "Backpack Free Filter", "Backpack Custom Filter"
     ],
     "require": {
         "backpack/crud": "^6.7",
