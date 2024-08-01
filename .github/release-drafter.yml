@@ -22,9 +22,3 @@ change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 template: |
   ## What's Changed
   $CHANGES
-
-  ## Contributors
-  $CONTRIBUTORS_LIST
-
-  ## Full Changelog
-  [Full Changelog: $PREVIOUS_TAG...$CURRENT_TAG](https://github.com/$REPOSITORY/compare/$PREVIOUS_TAG...$CURRENT_TAG)
