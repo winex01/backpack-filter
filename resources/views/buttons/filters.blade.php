@@ -5,7 +5,7 @@
 
     @push('list_top_collapse')
         <div id="filterForm" class="collapse" aria-labelledby="filterHeading">
-            <div class="card-body">
+            <div class="card card-body">
                 <form action="{{ url($crud->route) }}" method="GET">
 
                     @php
