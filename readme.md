@@ -8,13 +8,13 @@ This package provides a filter functionality for [Backpack for Laravel](https://
 
 ## Screenshots
 
-![Screenshot_13](https://github.com/user-attachments/assets/a356f001-b18e-4270-ab10-79cb29be8f06)
-![Screenshot_12](https://github.com/user-attachments/assets/b411481d-6ccf-47aa-828a-79e7f2e17b01)
+![bootstrap5](https://github.com/user-attachments/assets/537cd5a5-85f1-4bb7-b790-7de7de330d70)
+![bootstrap4](https://github.com/user-attachments/assets/b411481d-6ccf-47aa-828a-79e7f2e17b01)
 
 ## Theme Supported
 - theme-coreuiv2 - YES
-- theme-coreuiv4 - haven't tried
-- theme-tabler   - haven't tried
+- theme-coreuiv4 - YES
+- theme-tabler   - YES
 
 ## Installation
 

@@ -6,7 +6,11 @@
         <div class="card-header" id="filterHeading">
 
             @if(isset($crud->settings()['filterOperation.configuration']))
-                @include('winex01.backpack-filter::buttons.filters')
+                @if(config('backpack.ui.view_namespace') == 'backpack.theme-coreuiv2::')
+                    @include('winex01.backpack-filter::buttons.filters')
+                @else
+                    @include('winex01.backpack-filter::buttons.filters_bootstrap5')
+                @endif
             @endif
 
             @if(isset($crud->settings()['export.configuration']))
