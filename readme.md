@@ -13,8 +13,8 @@ This package provides a filter functionality for [Backpack for Laravel](https://
 
 ## Theme Supported
 - theme-coreuiv2 - YES
-- theme-coreuiv4 - haven't tried
-- theme-tabler   - haven't tried
+- theme-coreuiv4 - YES
+- theme-tabler   - YES
 
 ## Installation
 
