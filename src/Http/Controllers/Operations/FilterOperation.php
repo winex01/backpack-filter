@@ -32,7 +32,7 @@ trait FilterOperation
         });
     }
 
-    protected function filterValidations()
+    public function filterValidations()
     {   
         // If no access to filters, then don't proceed but don't show an error.
         if (!$this->crud->hasAccess('filters')) {
@@ -81,7 +81,7 @@ trait FilterOperation
         return true;
     }
 
-    protected function filterQueries(Closure $callback = null)
+    public function filterQueries(Closure $callback = null)
     {
         if (!$this->crud->hasAccess('filters')) {
             return;
@@ -100,7 +100,7 @@ trait FilterOperation
         }
     }
 
-    protected function setupFilterOperation()
+    public function setupFilterOperation()
     {
         // example field
         $this->crud->field([

@@ -45,7 +45,7 @@ trait ExportOperation
     }
 
     // this is use for route in blade file. if you define a route here then it will use instead of the auto
-    protected function exportRoute()
+    public function exportRoute()
     {
         return;
     }
@@ -54,7 +54,7 @@ trait ExportOperation
      * Show the view for performing the operation.
      *
      */
-    protected function export()
+    public function export()
     {
         CRUD::hasAccessOrFail('export');
 
@@ -69,7 +69,7 @@ trait ExportOperation
     }
 
     // override this in controller to change the export class
-    protected function exportClass()
+    public function exportClass()
     {
         $class = ucwords($this->crud->entity_name) . 'Export';
 
@@ -82,6 +82,7 @@ trait ExportOperation
         return $classExportInstance->download($this->strHumanReadable($class) . '-' . now() . '.xlsx');
     }
 
+    // TODO:: transfer to helper package
     private function strHumanReadable($string) 
     {
 		// Convert camel case to snake case with underscores
