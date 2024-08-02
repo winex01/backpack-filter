@@ -11,6 +11,10 @@ This package provides a filter functionality for [Backpack for Laravel](https://
 ![Screenshot_13](https://github.com/user-attachments/assets/a356f001-b18e-4270-ab10-79cb29be8f06)
 ![Screenshot_12](https://github.com/user-attachments/assets/b411481d-6ccf-47aa-828a-79e7f2e17b01)
 
+## Theme Supported
+- theme-coreuiv2 - YES
+- theme-coreuiv4 - haven't tried
+- theme-tabler   - haven't tried
 
 ## Installation
 
@@ -48,7 +52,7 @@ class EntityCrudController extends CrudController
 
     // method setup....
 
-    protected function setupFilterOperation()
+    public function setupFilterOperation()
     {
         $this->crud->field([
             'name' => 'status',
@@ -73,7 +77,7 @@ class EntityCrudController extends CrudController
 To apply the filter field into queries, inside your setupListOperation:
 
 ```php
-protected function setupListOperation()
+public function setupListOperation()
 {
     // if you use this method closure, validation is automatically applied.
     $this->filterQueries(function ($query) {
@@ -96,7 +100,7 @@ protected function setupListOperation()
 
 If you want to make your own validation:
 ```php
-protected function filterValidations()
+public function filterValidations()
 {   
     // If no access to filters, then don't proceed but don't show an error.
     if (!$this->crud->hasAccess('filters')) {
@@ -128,7 +132,7 @@ class UserCrudController extends CrudController
     use \Winex01\BackpackFilter\Http\Controllers\Operations\ExportOperation;
 
     // Optional: if you dont want to use the entity/export or user/export convention you can override the export route:
-    protected function exportRoute()
+    public function exportRoute()
     {
         return route('test.export');; // if you define a route here then it will use instead of the auto
     }    
@@ -137,11 +141,6 @@ class UserCrudController extends CrudController
 }
 
 ```
-
-## Theme Supported
-- theme-coreuiv2 - YES
-- theme-coreuiv4 - haven't tried
-- theme-tabler   - haven't tried
 
 ## Change log
 
