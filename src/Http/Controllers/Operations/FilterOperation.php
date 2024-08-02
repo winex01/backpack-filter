@@ -20,7 +20,7 @@ trait FilterOperation
             CRUD::loadDefaultOperationSettingsFromConfig();
         });
 
-        CRUD::operation('list', function () {
+        CRUD::operation(['list', 'export'], function () {
             $this->setupFilterOperation();
             $this->crud->macro('filterLists', function() {
                 return $this->fields();
