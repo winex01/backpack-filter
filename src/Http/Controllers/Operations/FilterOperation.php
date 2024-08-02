@@ -20,15 +20,11 @@ trait FilterOperation
             CRUD::loadDefaultOperationSettingsFromConfig();
         });
 
-        $this->setupFilterOperation();
-
-        $filters = [];
-        if (isset($this->crud->settings()['list.fields'])) {
-            $filters = $this->crud->settings()['list.fields'];
-        }
-
-        $this->crud->macro('filterLists', function() use ($filters) {
-            return $filters;
+        CRUD::operation('list', function () {
+            $this->setupFilterOperation();
+            $this->crud->macro('filterLists', function() {
+                return $this->fields();
+            });
         });
     }
 
