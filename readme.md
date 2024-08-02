@@ -7,9 +7,7 @@
 This package provides a filter functionality for [Backpack for Laravel](https://backpackforlaravel.com/) administration panel. If you don't have the budget or haven't purchased the pro version, this is a great alternative for implementing filters.
 
 ## Screenshots
-
-![bootstrap5](https://github.com/user-attachments/assets/537cd5a5-85f1-4bb7-b790-7de7de330d70)
-![bootstrap4](https://github.com/user-attachments/assets/b411481d-6ccf-47aa-828a-79e7f2e17b01)
+![coreui2](https://github.com/user-attachments/assets/6bb97fb2-eaf3-4e4e-8179-b82444a429f0)
 
 ## Theme Supported
 - theme-coreuiv2 - YES
