@@ -14,6 +14,11 @@ This package provides a filter functionality for [Backpack for Laravel](https://
 - theme-coreuiv4 - YES
 - theme-tabler   - YES
 
+## Supported Field
+- Select
+- date_range
+- date // TODO
+
 ## Installation
 
 Via Composer
