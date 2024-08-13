@@ -15,10 +15,9 @@ This package provides a filter functionality for [Backpack for Laravel](https://
 - theme-coreuiv4 - YES
 - theme-tabler   - YES
 
-## Supported Field
-- Select
-- date_range
-- date // TODO
+## Supported Fields
+- Free Backpack Fields(except relationship field)
+- date_range (this is custom so it has limited customization, can change wrapper and attributes)
 
 ## Installation
 
@@ -66,14 +65,13 @@ class EntityCrudController extends CrudController
                 1 => 'Connected',
                 2 => 'Disconnected'
             ],
-            // 'class-col' => 'col-2', Optional: default length is col-2 
+            // just like backpack field use wrapper 
         ]);
     
         $this->crud->field([
             'name' => 'date_range',
             'label' => __('Date Range'),
             'type' => 'date_range',
-            // 'class-col' => 'col-3', Optional: default length is col-3
         ]);
     }
 ```
