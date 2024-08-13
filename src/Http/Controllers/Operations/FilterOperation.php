@@ -86,11 +86,9 @@ trait FilterOperation
         // make sure to run only filterValidations on list and export operation, 
         // because we put the filterQueries in setupListOperation and most of the time
         // we inherit all setupListOperaiton into our showOperation and cause error.,
-        $this->crud->operation(['list', 'export'], function () {
-            if (!$this->filterValidations()) {
-                return;
-            }
-        });
+        if (in_array($this->crud->getOperation(), ['list', 'export'])) {
+            $this->filterValidations();
+        }
 
         // Execute the callback if provided
         if ($callback) {
