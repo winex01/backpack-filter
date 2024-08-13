@@ -49,22 +49,35 @@ trait FilterOperation
                         new DateRangePicker(),
                     ],
                 ]);    
-        
-                if ($validator->fails()) {
-                    $validationErrors = array_merge($validationErrors, $validator->errors()->all());
-                }
+            } else {
+                // free fields from backpack
+                switch ($filter['type']) {
+                    case 'number':
+                        $validator = Validator::make([$filterName => $filterValue], [
+                            $filterName => 'nullable|numeric',
+                        ]);
+                        break;
+                        
+                    case 'select_from_array':
+                        $validator = Validator::make([$filterName => $filterValue], [
+                            $filterName => [
+                                'nullable',
+                                'in:' . implode(',', array_keys($filter['options'])), // Dynamic options here
+                            ],
+                        ]);
+                        break;
 
-            } elseif ($filter['type'] == 'select') {
-                $validator = Validator::make([$filterName => $filterValue], [
-                    $filterName => [
-                        'nullable',
-                        'in:' . implode(',', array_keys($filter['options'])), // Dynamic options here
-                    ],
-                ]);    
-        
-                if ($validator->fails()) {
-                    $validationErrors = array_merge($validationErrors, $validator->errors()->all());
+                    default:
+                        // $validator = Validator::make([$filterName => $filterValue], [
+                        //     $filterName => 'nullable',
+                        // ]);
+                        break;
                 }
+            }
+
+            // append
+            if ($validator->fails()) {
+                $validationErrors = array_merge($validationErrors, $validator->errors()->all());
             }
         }
 
