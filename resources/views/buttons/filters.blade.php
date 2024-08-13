@@ -8,21 +8,18 @@
             <div class="card card-body">
                 <form action="{{ url($crud->route) }}" method="GET">
 
-                    @php
-                        $chunkedFilters = collect($crud->filterLists())->chunk(3);
-                    @endphp
 
-                    @foreach ($chunkedFilters as $filterChunk)
+                    <div class="row">
+                    @foreach ($crud->filterLists() as $field)
 
-                        <div class="row">
-
-                            @foreach ($filterChunk as $filter)
-                                @include('winex01.backpack-filter::filters.'.$filter['type'])    
-                            @endforeach
+                        @if ($field['type'] == 'date_range')
+                            @include('winex01.backpack-filter::filters.'.$field['type'])    
+                        @else
+                            @include('crud::fields.'.$field['type'])    
+                        @endif
                             
-                        </div>
-
                     @endforeach
+                    </div>
 
                     <div class="form-group">
                         <a href="{{ url($crud->route) }}" id="remove_filters_button" class="btn btn-secondary">Clear Filters</a>
