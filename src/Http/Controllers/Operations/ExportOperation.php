@@ -60,9 +60,7 @@ trait ExportOperation
 
         // validate first
         if ($this->crud->hasAccess('filters')) {
-            if (!$this->filterValidations()) {
-                return redirect()->back();
-            }
+            $this->filterValidations();
         }
 
         return $this->exportClass();
@@ -82,7 +80,6 @@ trait ExportOperation
         return $classExportInstance->download($this->strHumanReadable($class) . '-' . now() . '.xlsx');
     }
 
-    // TODO:: transfer to helper package
     private function strHumanReadable($string) 
     {
 		// Convert camel case to snake case with underscores

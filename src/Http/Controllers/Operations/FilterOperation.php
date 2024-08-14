@@ -83,11 +83,11 @@ trait FilterOperation
 
         // Show all validation errors if any
         if (!empty($validationErrors)) {
-            \Alert::error($validationErrors);
-            return false;
+            \Alert::error($validationErrors)->flash();
+            return redirect()->back();
         }
 
-        return true;
+        return redirect()->back()->withInput(request()->input());
     }
 
     public function filterQueries(Closure $callback = null)

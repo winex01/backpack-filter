@@ -65,13 +65,17 @@ class EntityCrudController extends CrudController
                 1 => 'Connected',
                 2 => 'Disconnected'
             ],
-            // just like backpack field use wrapper 
+            'wrapper' => [
+                'class' => 'form-group col-md-6'
+            ]
         ]);
-    
+
+        // 
         $this->crud->field([
             'name' => 'date_range',
             'label' => __('Date Range'),
             'type' => 'date_range',
+            // although this is a custom field, you can still use the wrapper and attribute here
         ]);
     }
 ```
@@ -115,13 +119,12 @@ public function filterValidations()
 
     // validator here.
 
-    // Show all validation errors if any
     if (!empty($validationErrors)) {
-        \Alert::error($validationErrors);
-        return false;
+        \Alert::error($validationErrors)->flash();
+        return redirect()->back();
     }
 
-    return true;
+    return redirect()->back()->withInput(request()->input());
 }
 ```
 
