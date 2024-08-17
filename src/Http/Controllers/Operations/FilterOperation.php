@@ -42,6 +42,7 @@ trait FilterOperation
             $filterName = $filter['name'];
             $filterValue = request()->input($filterName);
             
+            $validator = null;
             if ($filter['type'] == 'date_range') {
                 $validator = Validator::make([$filterName => $filterValue], [
                     $filterName => [
@@ -76,8 +77,10 @@ trait FilterOperation
             }
 
             // append
-            if ($validator->fails()) {
-                $validationErrors = array_merge($validationErrors, $validator->errors()->all());
+            if ($validator) {
+                if ($validator->fails()) {
+                    $validationErrors = array_merge($validationErrors, $validator->errors()->all());
+                }
             }
         }
 
