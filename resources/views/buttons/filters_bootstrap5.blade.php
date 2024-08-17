@@ -8,21 +8,7 @@
             <div class="card card-body">
                 <form action="{{ url($crud->route) }}" method="GET">
 
-                    @php
-                        $chunkedFilters = collect($crud->filterLists())->chunk(3);
-                    @endphp
-
-                    @foreach ($chunkedFilters as $filterChunk)
-
-                        <div class="row">
-
-                            @foreach ($filterChunk as $filter)
-                                @include('winex01.backpack-filter::filters.'.$filter['type'])    
-                            @endforeach
-
-                        </div>
-
-                    @endforeach
+                    @include('winex01.backpack-filter::filters.filter_lists')
 
                     <div class="form-group">
                         <a href="{{ url($crud->route) }}" id="remove_filters_button" class="btn btn-secondary">Clear Filters</a>
