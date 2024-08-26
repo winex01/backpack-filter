@@ -87,10 +87,12 @@ trait FilterOperation
         // Show all validation errors if any
         if (!empty($validationErrors)) {
             \Alert::error($validationErrors)->flash();
-            return redirect()->back();
+            // return redirect()->back();
+            return false;
         }
 
-        return redirect()->back()->withInput(request()->input());
+        return true;
+        // return redirect()->back()->withInput(request()->input());
     }
 
     public function filterQueries(Closure $callback = null)
@@ -103,12 +105,13 @@ trait FilterOperation
         // because we put the filterQueries in setupListOperation and most of the time
         // we inherit all setupListOperaiton into our showOperation and cause error.,
         if (in_array($this->crud->getOperation(), ['list', 'export'])) {
-            $this->filterValidations();
-        }
+            if ($this->filterValidations()) {
+                if ($callback) {
+                    $callback($this->crud->query);
+                }
+            }
 
-        // Execute the callback if provided
-        if ($callback) {
-            $callback($this->crud->query);
+            return redirect()->back()->withInput(request()->input());
         }
     }
 
