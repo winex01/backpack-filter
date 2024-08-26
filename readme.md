@@ -29,6 +29,11 @@ composer require winex01/backpack-filter
 
 ## Usage
 
+Make sure to remove this, or manually enter the columns, or unset list.field in list operation:
+```php
+//CRUD::setFromDb();
+```
+
 Create a file resources/vendor/backpack/crud/list.blade.php and paste the original backpack file contents. Inside, add this line:
 
 ```php
