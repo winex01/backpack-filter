@@ -33,6 +33,10 @@ Make sure to remove this, or manually enter the columns, or unset list.field in 
 ```php
 //CRUD::setFromDb();
 ```
+Allow access:
+```php
+$this->crud->allowAccess('filters');
+```
 
 Create a file resources/vendor/backpack/crud/list.blade.php and paste the original backpack file contents. Inside, add this line:
 
