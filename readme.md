@@ -49,6 +49,12 @@ OR you can download the file here:
 //line 51
 @include('winex01.backpack-filter::buttons.list_top_collapse')
 ```
+Or if you dont want to modify list.blade.php bec. you want to get the latest update from backpack future version you can add it like this, as button. The filter will be located at the col-md-9 before the search input box in the upper right.
+```php
+// setupListOperation method
+CRUD::button('filters')->view('winex01.backpack-filter::buttons.list_top_collapse'); 
+```
+
 
 To use the filter this package provides, inside your EntityCrudController do:
 
@@ -65,7 +71,7 @@ class EntityCrudController extends CrudController
         $this->crud->field([
             'name' => 'status',
             'label' => __('Status'),
-            'type' => 'select',
+            'type' => 'select_from_array',
             'options' => [
                 1 => 'Connected',
                 2 => 'Disconnected'
