@@ -7,15 +7,18 @@
 This package provides a filter functionality for [Backpack for Laravel](https://backpackforlaravel.com/) administration panel. If you don't have the budget or haven't purchased the pro version, this is a great alternative for implementing filters.
 
 ## Screenshots
+
 ![bootstrap5](https://github.com/user-attachments/assets/537cd5a5-85f1-4bb7-b790-7de7de330d70)
 ![bootstrap4](https://github.com/user-attachments/assets/b411481d-6ccf-47aa-828a-79e7f2e17b01)
 
 ## Theme Supported
+
 - theme-coreuiv2 - YES
 - theme-coreuiv4 - YES
-- theme-tabler   - YES
+- theme-tabler - YES
 
 ## Supported Fields
+
 - Free Backpack Fields(except relationship field)
 - date_range (this is custom so it has limited customization, can change wrapper and attributes)
 
@@ -23,44 +26,48 @@ This package provides a filter functionality for [Backpack for Laravel](https://
 
 Via Composer
 
-``` bash
+```bash
 composer require winex01/backpack-filter
 ```
 
 ## Usage
 
 Make sure to remove this, or manually enter the columns, or unset list.field in list operation:
+
 ```php
 //CRUD::setFromDb();
 ```
+
 Allow access:
+
 ```php
 $this->crud->allowAccess('filters');
 ```
 
-Create a file resources/vendor/backpack/crud/list.blade.php and paste the original backpack file contents. Inside, add this line:
+## You have 2 options how to add the button.
+
+Option 1: If you dont want to modify list.blade.php bec. you want to get the latest update from backpack future version you can add it like this, as button. The filter will be located at the col-md-9 before the search input box in the upper right.
 
 ```php
+// setupListOperation method
+CRUD::button('filters')->view('winex01.backpack-filter::buttons.list_top_collapse');
+```
+
+Option 2: Create a file resources/vendor/backpack/crud/list.blade.php and paste the original backpack file contents. You can download the file here: [list.blade.php](https://github.com/Laravel-Backpack/CRUD/blob/main/src/resources/views/crud/list.blade.php)
+Inside, add this line:
+
+```php
+// publish the config file and set: winex01/backpack-filter.php
+'auto_add_button' => false, // set to false so we can add it manually
+
 //resources/vendor/backpack/crud/list.blade.php
-@include('winex01.backpack-filter::buttons.list_top_collapse')
+@include('winex01.backpack-filter::buttons.list_top_collapse') // add manually
 
 {{-- Backpack List Filters --}}
 // some code here...
 ```
-OR you can download the file here:
-[list.blade.php](https://github.com/Laravel-Backpack/CRUD/blob/main/src/resources/views/crud/list.blade.php)
-```php
-//line 51
-@include('winex01.backpack-filter::buttons.list_top_collapse')
-```
-Or if you dont want to modify list.blade.php bec. you want to get the latest update from backpack future version you can add it like this, as button. The filter will be located at the col-md-9 before the search input box in the upper right.
-```php
-// setupListOperation method
-CRUD::button('filters')->view('winex01.backpack-filter::buttons.list_top_collapse'); 
-```
 
-
-To use the filter this package provides, inside your EntityCrudController do:
+## To use the filter this package provides, inside your EntityCrudController do:
 
 ```php
 
@@ -85,7 +92,7 @@ class EntityCrudController extends CrudController
             ]
         ]);
 
-        // 
+        //
         $this->crud->field([
             'name' => 'date_range',
             'label' => __('Date Range'),
@@ -120,9 +127,10 @@ public function setupListOperation()
 ```
 
 If you want to make your own validation:
+
 ```php
 public function filterValidations()
-{   
+{
     // If no access to filters, then don't proceed but don't show an error.
     if (!$this->crud->hasAccess('filters')) {
         return false;
@@ -143,8 +151,9 @@ public function filterValidations()
 }
 ```
 
-This package also provides with export using https://laravel-excel.com/, this operation automatically add entity/export route, be sure you have EntityExport.php file in your export directory. 
+This package also provides with export using https://laravel-excel.com/, this operation automatically add entity/export route, be sure you have EntityExport.php file in your export directory.
 example if you have UserCrudController, you must have app/Exports/UserExport.php file. Also if you have an active filters it will also apply into the export.
+
 ```php
 // crud controller
 class UserCrudController extends CrudController
@@ -155,7 +164,7 @@ class UserCrudController extends CrudController
     public function exportRoute()
     {
         return route('test.export');; // if you define a route here then it will use instead of the auto
-    }    
+    }
 
     // setup method...
 }
@@ -168,7 +177,7 @@ Changes are documented here on Github. Please see the [Releases tab](https://git
 
 ## Testing
 
-``` bash
+```bash
 composer test
 ```
 
@@ -187,14 +196,12 @@ If you discover any security related issues, please email winnie131212592@gmail.
 
 ## License
 
-This project was released under MIT, so you can install it on top of any Backpack & Laravel project. Please see the [license file](license.md) for more information. 
+This project was released under MIT, so you can install it on top of any Backpack & Laravel project. Please see the [license file](license.md) for more information.
 
 However, please note that you do need Backpack installed, so you need to also abide by its [YUMMY License](https://github.com/Laravel-Backpack/CRUD/blob/master/LICENSE.md). That means in production you'll need a Backpack license code. You can get a free one for non-commercial use (or a paid one for commercial use) on [backpackforlaravel.com](https://backpackforlaravel.com).
 
-
 [ico-version]: https://img.shields.io/packagist/v/winex01/backpack-filter.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/winex01/backpack-filter.svg?style=flat-square
-
 [link-packagist]: https://packagist.org/packages/winex01/backpack-filter
 [link-downloads]: https://packagist.org/packages/winex01/backpack-filter
 [link-author]: https://github.com/winex01

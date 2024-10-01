@@ -21,15 +21,19 @@ trait FilterOperation
         });
 
         CRUD::operation(['list', 'export'], function () {
+            if (config('winex01.backpack-filter.auto_add_button')) {
+                CRUD::button('filters')->view('winex01.backpack-filter::buttons.list_top_collapse');
+            }
+
             $this->setupFilterOperation();
-            $this->crud->macro('filterLists', function() {
+            $this->crud->macro('filterLists', function () {
                 return $this->fields();
             });
         });
     }
 
     public function filterValidations()
-    {   
+    {
         // If no access to filters, then don't proceed but don't show an error.
         if (!$this->crud->hasAccess('filters')) {
             return false;
@@ -41,7 +45,7 @@ trait FilterOperation
 
             $filterName = $filter['name'];
             $filterValue = request()->input($filterName);
-            
+
             $validator = null;
             if ($filter['type'] == 'date_range') {
                 $validator = Validator::make([$filterName => $filterValue], [
@@ -49,7 +53,7 @@ trait FilterOperation
                         'nullable',
                         new DateRangePicker(),
                     ],
-                ]);    
+                ]);
             } else {
                 // free fields from backpack
                 switch ($filter['type']) {
@@ -58,7 +62,7 @@ trait FilterOperation
                             $filterName => 'nullable|numeric',
                         ]);
                         break;
-                        
+
                     case 'select_from_array':
                         $validator = Validator::make([$filterName => $filterValue], [
                             $filterName => [
@@ -101,7 +105,7 @@ trait FilterOperation
             return;
         }
 
-        // make sure to run only filterValidations on list and export operation, 
+        // make sure to run only filterValidations on list and export operation,
         // because we put the filterQueries in setupListOperation and most of the time
         // we inherit all setupListOperaiton into our showOperation and cause error.,
         if (in_array($this->crud->getOperation(), ['list', 'export'])) {
