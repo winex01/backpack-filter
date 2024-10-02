@@ -171,6 +171,12 @@ class UserCrudController extends CrudController
 
 ```
 
+## Publish config
+
+```php
+php artisan vendor:publish --provider="Winex01\BackpackFilter\BackpackFilterServiceProvider" --tag="config"
+```
+
 ## Change log
 
 Changes are documented here on Github. Please see the [Releases tab](https://github.com/winex01/backpack-filter/releases).
