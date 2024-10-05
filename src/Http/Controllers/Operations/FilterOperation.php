@@ -54,7 +54,12 @@ trait FilterOperation
                         new DateRangePicker(),
                     ],
                 ]);
-            } else {
+            } elseif (isset($filter['relation_type']) && isset($filter['model'])) {
+                // if using relationship
+                $validator = Validator::make([$filterName => $filterValue], [
+                    $filterName => 'nullable|exists:' . $filter['model'] . ',id',
+                ]);
+            } {
                 // free fields from backpack
                 switch ($filter['type']) {
                     case 'number':
@@ -125,7 +130,7 @@ trait FilterOperation
         $this->crud->field([
             'name' => 'example',
             'label' => 'Example field',
-            'type' => 'select',
+            'type' => 'select_from_array',
             'options' => [
                 1 => 'Lorem',
                 2 => 'Ipsum',
