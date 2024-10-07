@@ -36,6 +36,8 @@ Make sure to remove this, or manually enter the columns, or unset list.field in 
 
 ```php
 //CRUD::setFromDb();
+//or 
+CRUD::setFromDb(false, true); //by doing this, it will remove all those fields that was automatically add by backpack
 ```
 
 Allow access:
