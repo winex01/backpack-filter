@@ -3,7 +3,6 @@
     @if ($crud->getOperation() == 'list')
         <script>
             $(document).ready(function() {
-                console.log('fuck that shit! test 123');
                 // Listen for changes to any checkbox with the class "form-check-input"
                 $('input.form-check-input[type="checkbox"]').on('change', function() {
                     // Find the closest hidden input field that is a sibling of the checkbox
