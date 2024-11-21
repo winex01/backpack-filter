@@ -20,6 +20,8 @@ trait FilterOperation
             CRUD::loadDefaultOperationSettingsFromConfig();
         });
 
+        \Backpack\CRUD\app\Library\Widget::add()->type('view')->view('winex01.backpack-filter::script');
+
         CRUD::operation(['list', 'export'], function () {
             if (config('winex01.backpack-filter.auto_add_button')) {
                 CRUD::button('filters')->view('winex01.backpack-filter::buttons.list_top_collapse');
