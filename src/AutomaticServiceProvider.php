@@ -3,6 +3,7 @@
 namespace Winex01\BackpackFilter;
 
 use Backpack\CRUD\ViewNamespaces;
+use Winex01\BackpackFilter\Http\Middleware\ClearOldInputFromListOperationFiltersInEdit;
 
 /**
  * This trait automatically loads package stuff, if they're present
@@ -19,11 +20,11 @@ trait AutomaticServiceProvider
      * @var string
      */
     protected string $path;
-    
+
     public function __construct($app)
     {
         $this->app = $app;
-        $this->path = __DIR__.'/..';
+        $this->path = __DIR__ . '/..';
     }
 
     /**
@@ -39,6 +40,12 @@ trait AutomaticServiceProvider
      */
     public function boot(): void
     {
+        // Add the custom middleware to the 'admin' middleware group
+        $this->app->router->middlewareGroup('admin', array_merge(
+            $this->app->router->getMiddlewareGroups()['admin'],
+            [ClearOldInputFromListOperationFiltersInEdit::class]
+        ));
+
         $this->autoboot();
     }
 
@@ -49,8 +56,10 @@ trait AutomaticServiceProvider
      */
     public function autoboot(): void
     {
-        if ($this->packageDirectoryExistsAndIsNotEmpty('bootstrap') &&
-            file_exists($helpers = $this->packageHelpersFile())) {
+        if (
+            $this->packageDirectoryExistsAndIsNotEmpty('bootstrap') &&
+            file_exists($helpers = $this->packageHelpersFile())
+        ) {
             require $helpers;
         }
 
@@ -70,7 +79,7 @@ trait AutomaticServiceProvider
             // Add default ViewNamespaces
             foreach (['buttons', 'columns', 'fields', 'filters', 'widgets'] as $viewNamespace) {
                 if ($this->packageDirectoryExistsAndIsNotEmpty("resources/views/$viewNamespace")) {
-                    ViewNamespaces::addFor($viewNamespace, $this->vendorNameDotPackageName()."::{$viewNamespace}");
+                    ViewNamespaces::addFor($viewNamespace, $this->vendorNameDotPackageName() . "::{$viewNamespace}");
                 }
             }
         }
@@ -137,7 +146,7 @@ trait AutomaticServiceProvider
         }
 
         // Registering package commands.
-        if (! empty($this->commands)) {
+        if (!empty($this->commands)) {
             $this->commands($this->commands);
         }
     }
@@ -150,12 +159,12 @@ trait AutomaticServiceProvider
 
     protected function vendorNameDotPackageName()
     {
-        return $this->vendorName.'.'.$this->packageName;
+        return $this->vendorName . '.' . $this->packageName;
     }
 
     protected function vendorNameSlashPackageName()
     {
-        return $this->vendorName.'/'.$this->packageName;
+        return $this->vendorName . '/' . $this->packageName;
     }
 
     // -------------
@@ -164,37 +173,37 @@ trait AutomaticServiceProvider
 
     protected function packageViewsPath()
     {
-        return $this->path.'/resources/views';
+        return $this->path . '/resources/views';
     }
 
     protected function packageLangsPath()
     {
-        return $this->path.'/resources/lang';
+        return $this->path . '/resources/lang';
     }
 
     protected function packageAssetsPath()
     {
-        return $this->path.'/resources/assets';
+        return $this->path . '/resources/assets';
     }
 
     protected function packageMigrationsPath()
     {
-        return $this->path.'/database/migrations';
+        return $this->path . '/database/migrations';
     }
 
     protected function packageConfigFile()
     {
-        return $this->path.'/config/'.$this->packageName.'.php';
+        return $this->path . '/config/' . $this->packageName . '.php';
     }
 
     protected function packageRoutesFile()
     {
-        return $this->path.'/routes/'.$this->packageName.'.php';
+        return $this->path . '/routes/' . $this->packageName . '.php';
     }
 
     protected function packageHelpersFile()
     {
-        return $this->path.'/bootstrap/helpers.php';
+        return $this->path . '/bootstrap/helpers.php';
     }
 
     // ---------------
@@ -203,22 +212,22 @@ trait AutomaticServiceProvider
 
     protected function publishedViewsPath()
     {
-        return base_path('resources/views/vendor/'.$this->vendorName.'/'.$this->packageName);
+        return base_path('resources/views/vendor/' . $this->vendorName . '/' . $this->packageName);
     }
 
     protected function publishedConfigFile()
     {
-        return config_path($this->vendorNameSlashPackageName().'.php');
+        return config_path($this->vendorNameSlashPackageName() . '.php');
     }
 
     protected function publishedAssetsPath()
     {
-        return public_path('vendor/'.$this->vendorNameSlashPackageName());
+        return public_path('vendor/' . $this->vendorNameSlashPackageName());
     }
 
     protected function publishedLangsPath()
     {
-        return resource_path('lang/vendor/'.$this->vendorName);
+        return resource_path('lang/vendor/' . $this->vendorName);
     }
 
     // -------------
@@ -228,12 +237,12 @@ trait AutomaticServiceProvider
     protected function packageDirectoryExistsAndIsNotEmpty($name)
     {
         // check if directory exists
-        if (! is_dir($this->path.'/'.$name)) {
+        if (!is_dir($this->path . '/' . $name)) {
             return false;
         }
 
         // check if directory has files
-        foreach (scandir($this->path.'/'.$name) as $file) {
+        foreach (scandir($this->path . '/' . $name) as $file) {
             if ($file != '.' && $file != '..' && $file != '.gitkeep') {
                 return true;
             }
