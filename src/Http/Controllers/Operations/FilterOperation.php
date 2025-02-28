@@ -61,7 +61,11 @@ trait FilterOperation
                 $validator = Validator::make([$filterName => $filterValue], [
                     $filterName => 'nullable|exists:' . $filter['model'] . ',id',
                 ]);
-            } {
+            } elseif ($filter['type'] == 'checkbox') {
+                $validator = Validator::make([$filterName => $filterValue], [
+                    $filterName => 'nullable|boolean',
+                ]);
+            } else {
                 // free fields from backpack
                 switch ($filter['type']) {
                     case 'number':
@@ -80,9 +84,9 @@ trait FilterOperation
                         break;
 
                     default:
-                        // $validator = Validator::make([$filterName => $filterValue], [
-                        //     $filterName => 'nullable',
-                        // ]);
+                        $validator = Validator::make([$filterName => $filterValue], [
+                            $filterName => 'nullable|' . $filter['type'],
+                        ]);
                         break;
                 }
             }
