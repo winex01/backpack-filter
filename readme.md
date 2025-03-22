@@ -35,40 +35,23 @@ composer require winex01/backpack-filter
 Make sure to remove this, or manually enter the columns, or unset list.field in list operation:
 
 ```php
-//CRUD::setFromDb();
-//or 
+//CRUD::setFromDb(); 
 CRUD::setFromDb(false, true); //by doing this, it will remove all those fields that was automatically add by backpack
 ```
 
 Allow access:
 
 ```php
-$this->crud->allowAccess('filters');
+public function setup()
+{
+    CRUD::setModel(\App\Models\SampleModel::class);
+    CRUD::setRoute(config('backpack.base.route_prefix') . '/sample');
+    CRUD::setEntityNameStrings('sample', 'samples');
+
+    $this->crud->allowAccess('filters'); // add this
+}
+
 ```
-
-## You have 2 options how to add the button.
-
-Option 1: If you dont want to modify list.blade.php bec. you want to get the latest update from backpack future version you can add it like this, as button. The filter will be located at the col-md-9 before the search input box in the upper right.
-
-```php
-// setupListOperation method
-CRUD::button('filters')->view('winex01.backpack-filter::buttons.list_top_collapse');
-```
-
-Option 2: Create a file resources/vendor/backpack/crud/list.blade.php and paste the original backpack file contents. You can download the file here: [list.blade.php](https://github.com/Laravel-Backpack/CRUD/blob/main/src/resources/views/crud/list.blade.php)
-Inside, add this line:
-
-```php
-// publish the config file and set: winex01/backpack-filter.php
-'auto_add_button' => false, // set to false so we can add it manually
-
-//resources/vendor/backpack/crud/list.blade.php
-@include('winex01.backpack-filter::buttons.list_top_collapse') // add manually
-
-{{-- Backpack List Filters --}}
-// some code here...
-```
-
 ## To use the filter this package provides, inside your EntityCrudController do:
 
 ```php
@@ -171,6 +154,22 @@ class UserCrudController extends CrudController
     // setup method...
 }
 
+```
+
+## Override or change filter position or button. (Optional)
+
+Create a file resources/vendor/backpack/crud/list.blade.php and paste the original backpack file contents. You can download the file here: [list.blade.php](https://github.com/Laravel-Backpack/CRUD/blob/main/src/resources/views/crud/list.blade.php)
+Inside, add this line:
+
+```php
+// publish the config file and set: winex01/backpack-filter.php
+'auto_add_button' => false, // set to false so we can add it manually
+
+//resources/vendor/backpack/crud/list.blade.php
+@include('winex01.backpack-filter::buttons.list_top_collapse') // add manually
+
+{{-- Backpack List Filters --}}
+// some code here...
 ```
 
 ## Publish config
