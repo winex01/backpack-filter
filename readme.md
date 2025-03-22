@@ -94,7 +94,7 @@ public function setupListOperation()
     //CRUD::setFromDb(); 
     CRUD::setFromDb(false, true); //by doing this, it will remove all those fields that was automatically added by backpack
 
-    // or dont use setFromDB() and just manually add columns each
+    // or dont use CRUD::setFromDb(false, true) and just manually add columns each
     $this->crud->columns('testColumn');
     // more columns etc...
 }
