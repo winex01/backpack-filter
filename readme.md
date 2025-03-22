@@ -154,24 +154,7 @@ class UserCrudController extends CrudController
     // setup method...
 }
 
-```
-
-## Override or change filter position or button. (Optional)
-
-Create a file resources/vendor/backpack/crud/list.blade.php and paste the original backpack file contents. You can download the file here: [list.blade.php](https://github.com/Laravel-Backpack/CRUD/blob/main/src/resources/views/crud/list.blade.php)
-Inside, add this line:
-
-```php
-// publish the config file and set: winex01/backpack-filter.php
-'auto_add_button' => false, // set to false so we can add it manually
-
-//resources/vendor/backpack/crud/list.blade.php
-@include('winex01.backpack-filter::buttons.list_top_collapse') // add manually
-
-{{-- Backpack List Filters --}}
-// some code here...
-```
-
+``` 
 ## Publish config
 
 ```php
