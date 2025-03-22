@@ -71,21 +71,6 @@ class EntityCrudController extends CrudController
     }
 ```
 
-Make sure to remove this, or manually enter the columns, or unset list.field in list operation:
-
-```php
-protected function setupListOperation()
-{
-    //CRUD::setFromDb(); 
-    CRUD::setFromDb(false, true); //by doing this, it will remove all those fields that was automatically add by backpack
-
-    // or dont use setFromDB()
-    $this->crud->columns('testColumn');
-    //etc...
-}
-
-```
-
 To apply the filter field into queries, inside your setupListOperation:
 
 ```php
@@ -106,7 +91,12 @@ public function setupListOperation()
         }
     });
 
-    // some code here... add column etc...
+    //CRUD::setFromDb(); 
+    CRUD::setFromDb(false, true); //by doing this, it will remove all those fields that was automatically added by backpack
+
+    // or dont use setFromDB() and just manually add columns each
+    $this->crud->columns('testColumn');
+    // more columns etc...
 }
 ```
 
