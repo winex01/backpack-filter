@@ -19,7 +19,7 @@ This package provides a filter functionality for [Backpack for Laravel](https://
 
 ## Supported Fields
 
-- Free Backpack Fields(except relationship field)
+- Free Backpack Fields
 - date_range (this is custom so it has limited customization, can change wrapper and attributes)
 
 ## Installation
@@ -30,37 +30,21 @@ Via Composer
 composer require winex01/backpack-filter
 ```
 
-## Usage
-
-Make sure to remove this, or manually enter the columns, or unset list.field in list operation:
-
-```php
-//CRUD::setFromDb(); 
-CRUD::setFromDb(false, true); //by doing this, it will remove all those fields that was automatically add by backpack
-```
-
-Allow access:
-
-```php
-public function setup()
-{
-    CRUD::setModel(\App\Models\SampleModel::class);
-    CRUD::setRoute(config('backpack.base.route_prefix') . '/sample');
-    CRUD::setEntityNameStrings('sample', 'samples');
-
-    $this->crud->allowAccess('filters'); // add this
-}
-
-```
-## To use the filter this package provides, inside your EntityCrudController do:
-
+## Usage: inside your EntityCrudController do:
 ```php
 
 class EntityCrudController extends CrudController
 {
     use \Winex01\BackpackFilter\Http\Controllers\Operations\FilterOperation;
 
-    // method setup....
+    public function setup()
+    {
+        CRUD::setModel(\App\Models\SampleModel::class);
+        CRUD::setRoute(config('backpack.base.route_prefix') . '/sample');
+        CRUD::setEntityNameStrings('sample', 'samples');
+    
+        $this->crud->allowAccess('filters'); // Allow access
+    }
 
     public function setupFilterOperation()
     {
@@ -85,6 +69,21 @@ class EntityCrudController extends CrudController
             // although this is a custom field, you can still use the wrapper and attribute here
         ]);
     }
+```
+
+Make sure to remove this, or manually enter the columns, or unset list.field in list operation:
+
+```php
+protected function setupListOperation()
+{
+    //CRUD::setFromDb(); 
+    CRUD::setFromDb(false, true); //by doing this, it will remove all those fields that was automatically add by backpack
+
+    // or dont use setFromDB()
+    $this->crud->columns('testColumn');
+    //etc...
+}
+
 ```
 
 To apply the filter field into queries, inside your setupListOperation:
