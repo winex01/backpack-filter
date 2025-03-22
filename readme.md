@@ -111,7 +111,7 @@ public function setupListOperation()
 }
 ```
 
-If you want to make your own validation:
+Filter validation automatically applied but if you want to make your own validation: 
 
 ```php
 public function filterValidations()
