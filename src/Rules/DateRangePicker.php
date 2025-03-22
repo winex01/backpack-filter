@@ -16,8 +16,10 @@ class DateRangePicker implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
+        $attributeName = $this->strToHumanReadable($attribute);
+
         if (!Str::contains($value, '-')) {
-            $fail(__("Invalid date range format for {$attribute}."));
+            $fail(__("Invalid date range format for {$attributeName}."));
             return;
         }
 
@@ -25,7 +27,7 @@ class DateRangePicker implements ValidationRule
 
         // Ensure the date range contains exactly two dates
         if (count($dates) !== 2) {
-            $fail(__("Invalid date range format for {$attribute}."));
+            $fail(__("Invalid date range format for {$attributeName}."));
             return; // Exit the function early
         }
 
@@ -35,18 +37,23 @@ class DateRangePicker implements ValidationRule
 
         // Parse dates with Carbon
         try {
-            $startDate = Carbon::createFromFormat('m/d/Y', $startDate);
-            $endDate = Carbon::createFromFormat('m/d/Y', $endDate);
+            $startDate = Carbon::parse($startDate);
+            $endDate = Carbon::parse($endDate);
         } catch (\Exception $e) {
-            $fail(__("Invalid date format for {$attribute}."));
+            $fail(__("Invalid date format for {$attributeName}."));
             return; // Exit the function early
         }
 
         // Ensure the start date is less than the end date
         if ($startDate->gt($endDate)) {
-            $fail(__("The end date must be greater than or equal to the start date for {$attribute}."));
+            $fail(__("The end date must be greater than or equal to the start date for {$attributeName}."));
         }
+    }
 
+    public function strToHumanReadable($string, $capitalizeAllWords = false)
+    {
+        $snakeCase = Str::replace('_', ' ', Str::snake($string)); // Convert camelCase to snake_case and replace underscores
 
+        return $capitalizeAllWords ? ucwords($snakeCase) : ucfirst($snakeCase); // Use ucwords() or ucfirst() based on the second parameter
     }
 }
