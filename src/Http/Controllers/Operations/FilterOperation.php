@@ -82,6 +82,10 @@ trait FilterOperation
                             ],
                         ]);
                         break;
+                    
+                    case 'hidden':
+                        // dont validate hidden.
+                        break;
 
                     default:
                         $validator = Validator::make([$filterName => $filterValue], [
